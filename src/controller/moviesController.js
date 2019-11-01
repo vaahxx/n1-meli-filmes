@@ -1,5 +1,6 @@
 // acesso a camada model
 const movies = require('../model/filmes.json');
+const fs = require('fs');
 
 exports.get = (req, res) => {
     return res.status(200).send(movies);
@@ -13,4 +14,15 @@ exports.getGenre = (req, res) => {
     const generoParam = req.params.genero;
     const genre = movies.filter(m => m.genre.includes(generoParam));
     return res.status(200).send(genre);
+};
+exports.post = (req, res) => {
+    const {title, year, director, duration, genre, rate} = req.body;
+    movies.push({title, year, director, duration, genre, rate});
+    fs.writeFile("./src/model/filmes.json", JSON.stringify(movies), 'utf8', (err) => {
+        if (err) {
+            return res.status(500).send({ message:err });
+        }
+        console.log('file was saved!')
+    });
+    return res.status(201).send(movies);    
 };
