@@ -14,7 +14,15 @@ exports.getGenre = (req, res) => {
     const generoParam = req.params.genero;
     const genre = movies.filter(m => m.genre.includes(generoParam));
     res.status(200).send(genre);
-    console.log(genre);
+};
+exports.getDirectorAndGenre = (req, res) => {
+    const diretorParam = req.params.diretor;
+    const generoParam = req.params.genero;
+    console.log(diretorParam);
+    console.log(generoParam);
+    const filmesFiltrados =  movies.filter(m => m.director == diretorParam &&  m.genre.includes(generoParam));
+    console.log(filmesFiltrados);
+    res.status(200).send(movies);    
 };
 exports.post = (req, res) => {
     const {title, year, director, duration, genre, rate} = req.body;
